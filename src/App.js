@@ -1,23 +1,31 @@
-import logo from './logo.svg';
+import React, { useState, useEffect } from 'react';
+import Restaurent from './Restaurent';
+import RestaurentDetails from './RestaurentDetails';
+import data from './data.json';
+import "bootstrap/dist/css/bootstrap.min.css";
 import './App.css';
 
 function App() {
+  const [groupByCategory, setGroupByCategory] = useState([]);
+
+  useEffect(() => {
+    let categoryArray = [];
+    data.Category.forEach((res) => {
+      const category = data.Item.filter(
+        (user) => user.CategoryID === res.CategoryID
+      );
+      var obj = {};
+      obj[res.CategoryID] = category;
+      categoryArray.push(obj);
+    });
+    setGroupByCategory(categoryArray);
+    console.log(categoryArray);
+  }, []);
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>Restaurent App!</h1>
+      <Restaurent />
+      <RestaurentDetails />
     </div>
   );
 }
